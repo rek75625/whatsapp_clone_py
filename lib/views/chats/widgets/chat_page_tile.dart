@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone_py/constants/colors.dart';
+import 'package:whatsapp_clone_py/constants/app_sizing.dart';
 import 'package:whatsapp_clone_py/views/chats/model/chats_contact_models.dart';
 
 class ChatContactItem extends StatelessWidget {
+  final int index;
   final ChatContactModels chat;
   final VoidCallback? onTap;
 
-  const ChatContactItem({super.key, required this.chat, this.onTap});
+  const ChatContactItem({
+    super.key,
+    required this.chat,
+    this.onTap,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
+    final bool isGroup = chat.homeTile == HomeTile.group;
 
     final double horizontalPadding = width < 400 ? 10 : 12;
     final double avatarSize = width < 400 ? 54 : 58;
@@ -32,9 +39,12 @@ class ChatContactItem extends StatelessWidget {
                 // ------------------------------------------------
                 // AVATAR
                 // ------------------------------------------------
-                _buildAvatar(avatarSize),
+                if (isGroup)
+                  _buildGroupAvatar(avatarSize)
+                else
+                  _buildUserAvatar(avatarSize),
 
-                const SizedBox(width: 14),
+                AppSizes.width16,
 
                 // ------------------------------------------------
                 // NAME + LAST MESSAGE
@@ -114,39 +124,158 @@ class ChatContactItem extends StatelessWidget {
   }
 
   // ==========================================================
-  // AVATAR
+  // User AVATAR
   // ==========================================================
 
-  Widget _buildAvatar(double size) {
-    return Stack(
-      children: [
-        ClipOval(
-          child: Image.network(
-            chat.userimageUrl,
-            width: size,
-            height: size,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                width: size,
-                height: size,
-                color: const Color(0xffeeeeee),
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.person,
-                  size: size * .55,
-                  color: const Color(0xff999999),
-                ),
-              );
-            },
+  Widget _buildUserAvatar(double size) {
+    if (chat.homeTile == HomeTile.message) {
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          ClipOval(
+            child: Image.network(
+              chat.userimageUrl,
+              width: size,
+              height: size,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  width: size,
+                  height: size,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xffeeeeee),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.person,
+                    size: size * .55,
+                    color: const Color(0xff999999),
+                  ),
+                );
+              },
+            ),
           ),
+
+          // Online indicator
+          if (chat.isOnline)
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: _buildOnlineIndicatora(size),
+            ),
+        ],
+      );
+    }
+
+    // ============================================================
+    // GROUP
+    // ============================================================
+
+    return _buildGroupAvatar(size);
+  }
+
+  Widget _buildGroupAvatar(double size) {
+    final images = chat.participantsImages ?? [];
+
+    // Number of images we want to display
+    final displayImages = images.take(2).toList();
+
+    if (displayImages.isEmpty) {
+      return Container(
+        width: size,
+        height: size,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xffeeeeee),
         ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: chat.isOnline ? _buildOnlineIndicator(size) : const SizedBox(),
+        alignment: Alignment.center,
+        child: Icon(Icons.group, size: size * .50, color: Colors.grey),
+      );
+    }
+
+    // ============================================================
+    // TWO / THREE OVERLAPPING IMAGES
+    // ============================================================
+
+    final double smallSize = size * .62;
+
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          // --------------------------------------------------------
+          // IMAGE 1
+          // --------------------------------------------------------
+
+          Positioned(
+            left: 0,
+            top: size * .19,
+            child: _buildGroupImages(
+              imageUrl: displayImages[0],
+              size: smallSize,
+            ),
+          ),
+
+          // --------------------------------------------------------
+          // IMAGE 2
+          // --------------------------------------------------------
+          if (displayImages.length >= 2)
+            Positioned(
+              right: 0,
+              top: 0,
+              child: _buildGroupImages(
+                imageUrl: displayImages[1],
+                size: smallSize,
+              ),
+            ),
+
+          // --------------------------------------------------------
+          // IMAGE 3
+          // --------------------------------------------------------
+          if (displayImages.length >= 3)
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: _buildGroupImages(
+                imageUrl: displayImages[2],
+                size: smallSize,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGroupImages({required String imageUrl, required double size}) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 2),
+      ),
+      child: ClipOval(
+        child: Image.network(
+          imageUrl,
+          width: size,
+          height: size,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              color: const Color(0xffeeeeee),
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.person,
+                size: size * .45,
+                color: const Color(0xff999999),
+              ),
+            );
+          },
         ),
-      ],
+      ),
     );
   }
 
@@ -230,14 +359,15 @@ class ChatContactItem extends StatelessWidget {
     );
   }
 
-  Widget _buildOnlineIndicator(double size) {
+  Widget _buildOnlineIndicatora(double size) {
     return Container(
       width: size * 0.2,
       height: size * 0.2,
 
-      decoration: const BoxDecoration(
-        color: AppColors.greenColor,
+      decoration: BoxDecoration(
+        color: Colors.green,
         shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 2),
       ),
     );
   }

@@ -9,7 +9,9 @@ class ChatContactModels {
   final String time;
   final bool isOnline;
   final int unreadCount;
+  final HomeTile homeTile;
   final MessageType messageType;
+  final List<String>? participantsImages;
 
   const ChatContactModels({
     required this.username,
@@ -19,10 +21,14 @@ class ChatContactModels {
     this.isOnline = false,
     this.unreadCount = 0,
     this.messageType = MessageType.text,
+    required this.homeTile,
+    this.participantsImages,
   });
 }
 
 enum MessageType { text, image, voice, emoji }
+
+enum HomeTile { message, group }
 
 // ============================================================
 // CHAT DATA
@@ -37,6 +43,7 @@ const List<ChatContactModels> contacts = [
     time: '16:32',
     isOnline: true,
     messageType: MessageType.emoji,
+    homeTile: HomeTile.group,
   ),
   ChatContactModels(
     username: 'James Arthur',
@@ -47,6 +54,12 @@ const List<ChatContactModels> contacts = [
     isOnline: true,
     unreadCount: 2,
     messageType: MessageType.text,
+    homeTile: HomeTile.group,
+    participantsImages: [
+      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde',
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e',
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+    ],
   ),
   ChatContactModels(
     username: 'Sarah Williams',
@@ -55,6 +68,7 @@ const List<ChatContactModels> contacts = [
     lastMessage: 'See you tomorrow 😊',
     time: '15:48',
     isOnline: false,
+    homeTile: HomeTile.group,
   ),
   ChatContactModels(
     username: 'David Smith',
@@ -65,6 +79,7 @@ const List<ChatContactModels> contacts = [
     isOnline: true,
     unreadCount: 4,
     messageType: MessageType.voice,
+    homeTile: HomeTile.message,
   ),
   ChatContactModels(
     username: 'Emma Watson',
@@ -73,6 +88,7 @@ const List<ChatContactModels> contacts = [
     lastMessage: 'Thank you ❤️',
     time: '13:22',
     isOnline: false,
+    homeTile: HomeTile.message,
   ),
   ChatContactModels(
     username: 'Michael Johnson',
@@ -82,6 +98,7 @@ const List<ChatContactModels> contacts = [
     time: '12:50',
     isOnline: true,
     messageType: MessageType.image,
+    homeTile: HomeTile.message,
   ),
   ChatContactModels(
     username: 'Olivia Brown',
@@ -90,5 +107,6 @@ const List<ChatContactModels> contacts = [
     time: '11:42',
     isOnline: false,
     unreadCount: 1,
+    homeTile: HomeTile.message,
   ),
 ];

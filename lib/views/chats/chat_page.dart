@@ -32,7 +32,9 @@ class ChatContactList extends StatelessWidget {
         final chat = contacts[index];
 
         return ChatContactItem(
+          index: index,
           chat: chat,
+
           onTap: () {
             debugPrint('Open chat: ${chat.username}');
           },
