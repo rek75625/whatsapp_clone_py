@@ -5,6 +5,16 @@ void main() {
   runApp(const MyApp());
 }
 
+class ScrollGlowEffect extends ScrollBehavior {
+  Widget buildViewportChrome(
+    BuildContext context,
+    Widget child,
+    AxisDirection axisDiection,
+  ) {
+    return child;
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -15,6 +25,9 @@ class MyApp extends StatelessWidget {
       title: 'WhatsApp Clone',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      builder: (context, child) {
+        return ScrollConfiguration(behavior: ScrollGlowEffect(), child: child!);
+      },
       home: HomeRootNav(),
     );
   }

@@ -19,7 +19,7 @@ class _CallPageState extends State<CallPage> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: backgroundColor(context),
       body: SafeArea(
         child: Padding(
           padding: AppSizes.padHori16,

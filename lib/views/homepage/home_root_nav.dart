@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hidable/hidable.dart';
 import 'package:whatsapp_clone_py/constants/colors.dart';
 import 'package:whatsapp_clone_py/views/calls/call_page.dart';
 import 'package:whatsapp_clone_py/views/chats/chat_page.dart';
@@ -12,16 +13,18 @@ class HomeRootNav extends StatefulWidget {
 }
 
 class _HomeRootNavState extends State<HomeRootNav> {
+  // Default to the "Chats" tab
   static const List<Widget> _widgetOptions = <Widget>[
     CallPage(), // Index 0: Home
     ChatPage(), // Index 1: Chats
     SettingsPage(), // Index 2: Settings
   ];
-  int selectedIndex = 1; // Default to the "Chats" tab
   @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController = ScrollController();
+    int selectedIndex = 1;
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: backgroundColor(context),
       body: SafeArea(child: _widgetOptions.elementAt(selectedIndex)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -30,33 +33,36 @@ class _HomeRootNavState extends State<HomeRootNav> {
         backgroundColor: AppColors.greenColor,
         child: Icon(Icons.add_box_sharp, color: Colors.white),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        backgroundColor: AppColors.backgroundColor,
-        selectedItemColor: AppColors.greenColor,
-        unselectedItemColor: blackColor(context).darkShade,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.phone),
-            label: 'Phone',
-            backgroundColor: selectedIndex == 0 ? AppColors.greenColor : null,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble),
-            label: 'Chats',
-            backgroundColor: selectedIndex == 1 ? AppColors.greenColor : null,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-            backgroundColor: selectedIndex == 2 ? AppColors.greenColor : null,
-          ),
-        ],
+      bottomNavigationBar: Hidable(
+        controller: scrollController,
+        child: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          backgroundColor: AppColors.backgroundColor,
+          selectedItemColor: AppColors.greenColor,
+          unselectedItemColor: blackColor(context).darkShade,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.phone),
+
+              backgroundColor: selectedIndex == 0 ? AppColors.greenColor : null,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble),
+
+              backgroundColor: selectedIndex == 1 ? AppColors.greenColor : null,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+
+              backgroundColor: selectedIndex == 2 ? AppColors.greenColor : null,
+            ),
+          ],
+        ),
       ),
     );
   }
