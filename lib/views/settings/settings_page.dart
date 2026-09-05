@@ -6,14 +6,14 @@ import 'package:whatsapp_clone_py/constants/images_constant.dart';
 import 'package:whatsapp_clone_py/views/chats/widgets/add_story.dart';
 import 'package:whatsapp_clone_py/views/chats/widgets/chat_tiles_list.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -30,7 +30,7 @@ class _ChatPageState extends State<ChatPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Chats',
+                    'Settings',
                     style: TextStyle(
                       fontSize: AppFontSizing.fontHeadingLarge24,
                       fontWeight: FontWeight.w800,

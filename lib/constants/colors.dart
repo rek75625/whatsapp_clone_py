@@ -59,6 +59,20 @@ class AppColors {
   static const Color lightGrey = Color(0xFFB1B1B1);
 }
 
+extension DarkMode on BuildContext {
+  bool get isDarkMode =>
+      MediaQuery.of(this).platformBrightness == Brightness.dark;
+}
+
+Color backgroundColor(BuildContext context) => context.isDarkMode
+    ? blackColor(context, isnvert: true).darkShade
+    : AppColors.backgroundColor;
+
+DoubleShade blackColor(BuildContext context, {bool isnvert = false}) =>
+    (isnvert ? !context.isDarkMode : context.isDarkMode)
+    ? DoubleShade(AppColors.lightGrey, AppColors.backgroundColor)
+    : DoubleShade(Color(0xFF313131), Color(0xFF121212));
+
 DoubleShade blackColors = DoubleShade(Color(0xFF313131), Color(0xFF121212));
 DoubleShade greenGradient = DoubleShade(Color(0xFF5CE27F), Color(0xFF5CABE2));
 DoubleShade grayColors = DoubleShade(Color(0xFFB1B1B1), Color(0xFFEFEFEF));

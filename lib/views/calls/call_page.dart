@@ -3,17 +3,17 @@ import 'package:whatsapp_clone_py/constants/app_font_sizing.dart';
 import 'package:whatsapp_clone_py/constants/app_sizing.dart';
 import 'package:whatsapp_clone_py/constants/colors.dart';
 import 'package:whatsapp_clone_py/constants/images_constant.dart';
-import 'package:whatsapp_clone_py/views/chats/chat_page.dart';
-import 'package:whatsapp_clone_py/views/homepage/widgets/add_story.dart';
+import 'package:whatsapp_clone_py/views/chats/widgets/chat_tiles_list.dart';
+import 'package:whatsapp_clone_py/views/chats/widgets/add_story.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CallPage extends StatefulWidget {
+  const CallPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CallPage> createState() => _CallPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CallPageState extends State<CallPage> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -30,10 +30,11 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Chats',
+                    'Calls',
                     style: TextStyle(
                       fontSize: AppFontSizing.fontHeadingLarge24,
                       fontWeight: FontWeight.w800,
+                      color: blackColor(context).darkShade,
                     ),
                   ),
                   Icon(
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Divider(color: AppColors.lightGrey, thickness: 1.0),
-              Expanded(child: ChatsPage()),
+              Expanded(child: ChatTilesList()),
             ],
           ),
         ),
