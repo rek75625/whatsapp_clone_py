@@ -14,18 +14,19 @@ class HomeRootNav extends StatefulWidget {
 
 class _HomeRootNavState extends State<HomeRootNav> {
   // Default to the "Chats" tab
-  static const List<Widget> _widgetOptions = <Widget>[
-    CallPage(), // Index 0: Home
-    ChatPage(), // Index 1: Chats
-    SettingsPage(), // Index 2: Settings
-  ];
+
   @override
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
-    int selectedIndex = 1;
+    List<Widget> widgetOptions = <Widget>[
+      CallPage(scrollController: scrollController), // Index 0: Home
+      ChatPage(scrollController: scrollController), // Index 1: Chats
+      SettingsPage(scrollController: scrollController), // Index 2: Settings
+    ];
+    int selectedIndex = 0;
     return Scaffold(
       backgroundColor: backgroundColor(context),
-      body: SafeArea(child: _widgetOptions.elementAt(selectedIndex)),
+      body: SafeArea(child: widgetOptions.elementAt(selectedIndex)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('Open new chat');

@@ -7,7 +7,8 @@ import 'package:whatsapp_clone_py/views/chats/widgets/add_story.dart';
 import 'package:whatsapp_clone_py/views/chats/widgets/chat_tiles_list.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  final ScrollController scrollController;
+  const SettingsPage({super.key, required this.scrollController});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -18,6 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    bool isSearch = false;
     return Scaffold(
       backgroundColor: backgroundColor(context),
       body: SafeArea(
@@ -30,17 +32,24 @@ class _SettingsPageState extends State<SettingsPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Settings',
+                    isSearch == true ? 'Search' : 'Settings',
                     style: TextStyle(
                       fontSize: AppFontSizing.fontHeadingLarge24,
                       fontWeight: FontWeight.w800,
                       color: blackColor(context).darkShade,
                     ),
                   ),
-                  Icon(
-                    Icons.search,
-                    size: AppFontSizing.fontHeadingLarge24,
-                    color: AppColors.greenColor,
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isSearch = !isSearch;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.search,
+                      size: AppFontSizing.fontHeadingLarge24,
+                      color: AppColors.greenColor,
+                    ),
                   ),
                 ],
               ),
