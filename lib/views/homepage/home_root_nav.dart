@@ -33,35 +33,48 @@ class _HomeRootNavState extends State<HomeRootNav> {
         backgroundColor: AppColors.greenColor,
         child: Icon(Icons.add_box_sharp, color: Colors.white),
       ),
-      bottomNavigationBar: Hidable(
-        controller: scrollController,
-        child: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          backgroundColor: AppColors.backgroundColor,
-          selectedItemColor: AppColors.greenColor,
-          unselectedItemColor: blackColor(context).darkShade,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.phone),
+      bottomNavigationBar: SizedBox(
+        height: 62,
+        child: Hidable(
+          controller: scrollController,
+          child: BottomNavigationBar(
+            iconSize: 24,
 
-              backgroundColor: selectedIndex == 0 ? AppColors.greenColor : null,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble),
-
-              backgroundColor: selectedIndex == 1 ? AppColors.greenColor : null,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-
-              backgroundColor: selectedIndex == 2 ? AppColors.greenColor : null,
-            ),
-          ],
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            currentIndex: selectedIndex,
+            onTap: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+            backgroundColor: AppColors.backgroundColor,
+            selectedItemColor: AppColors.greenColor,
+            unselectedItemColor: blackColor(context).darkShade,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.phone),
+                label: "Calls",
+                backgroundColor: selectedIndex == 0
+                    ? AppColors.greenColor
+                    : null,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.chat_bubble),
+                label: "Chats",
+                backgroundColor: selectedIndex == 1
+                    ? AppColors.greenColor
+                    : null,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: "Settings",
+                backgroundColor: selectedIndex == 2
+                    ? AppColors.greenColor
+                    : null,
+              ),
+            ],
+          ),
         ),
       ),
     );
