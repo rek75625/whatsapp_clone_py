@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_py/constants/app_font_sizing.dart';
 import 'package:whatsapp_clone_py/constants/app_sizing.dart';
@@ -15,11 +17,19 @@ class CallPage extends StatefulWidget {
 }
 
 class _CallPageState extends State<CallPage> {
+  final TextEditingController searchController = TextEditingController();
+  bool isSearch = false;
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    bool isSearch = false;
     return Scaffold(
       backgroundColor: backgroundColor(context),
       body: SafeArea(
@@ -32,7 +42,7 @@ class _CallPageState extends State<CallPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    isSearch == true ? 'Search' : 'Calls',
+                    isSearch ? 'Search' : 'Calls',
                     style: TextStyle(
                       fontSize: AppFontSizing.fontHeadingLarge24,
                       fontWeight: FontWeight.w800,
@@ -43,15 +53,59 @@ class _CallPageState extends State<CallPage> {
                     onPressed: () {
                       setState(() {
                         isSearch = !isSearch;
+                        searchController.clear();
                       });
                     },
-                    icon: Icon(
-                      Icons.search,
-                      size: AppFontSizing.fontHeadingLarge24,
-                      color: AppColors.greenColor,
+                    icon: Transform.rotate(
+                      angle: isSearch ? 0 : pi * (90 / 360),
+                      child: Icon(
+                        isSearch ? Icons.search : Icons.add,
+                        size: AppFontSizing.fontHeadingLarge24,
+                        color: AppColors.greenColor,
+                      ),
                     ),
                   ),
                 ],
+              ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+
+                child: isSearch
+                    ? SizedBox(key: ValueKey('empty'))
+                    : Padding(
+                        key: ValueKey('search'),
+
+                        padding: EdgeInsets.only(top: 4, bottom: 8),
+
+                        child: SizedBox(
+                          height: 48,
+
+                          child: TextFormField(
+                            controller: searchController,
+
+                            decoration: InputDecoration(
+                              hintText: 'Search here......',
+
+                              prefixIcon: Icon(Icons.search),
+
+                              filled: true,
+
+                              fillColor: Colors.grey.shade100,
+
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: 12,
+                              ),
+
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
               ),
               AppSizes.height8,
               Divider(color: AppColors.lightGrey, thickness: 1.0),
@@ -63,14 +117,6 @@ class _CallPageState extends State<CallPage> {
                 child: ListView.builder(
                   itemCount: 30,
                   itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return addStoryOrStatusWidget(
-                        iconData: Icons.add,
-                        title: 'Your Story',
-                        size: 60,
-                        imagePath: null,
-                      );
-                    }
                     return addStoryOrStatusWidget(
                       iconData: null,
                       title: 'User $index',
@@ -83,7 +129,13 @@ class _CallPageState extends State<CallPage> {
                 ),
               ),
               Divider(color: AppColors.lightGrey, thickness: 1.0),
-              Expanded(child: ChatTilesList()),
+              Expanded(
+                child: ChatTilesList(
+                  key: Key("Calls"),
+                  isSearch: isSearch,
+                  searchController: searchController,
+                ),
+              ),
             ],
           ),
         ),

@@ -14,16 +14,16 @@ class HomeRootNav extends StatefulWidget {
 
 class _HomeRootNavState extends State<HomeRootNav> {
   // Default to the "Chats" tab
+  final ScrollController scrollController = ScrollController();
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController scrollController = ScrollController();
     List<Widget> widgetOptions = <Widget>[
       CallPage(scrollController: scrollController), // Index 0: Home
       ChatPage(scrollController: scrollController), // Index 1: Chats
       SettingsPage(scrollController: scrollController), // Index 2: Settings
     ];
-    int selectedIndex = 0;
     return Scaffold(
       backgroundColor: backgroundColor(context),
       body: SafeArea(child: widgetOptions.elementAt(selectedIndex)),
@@ -40,7 +40,6 @@ class _HomeRootNavState extends State<HomeRootNav> {
           controller: scrollController,
           child: BottomNavigationBar(
             iconSize: 24,
-
             selectedFontSize: 12,
             unselectedFontSize: 12,
             currentIndex: selectedIndex,

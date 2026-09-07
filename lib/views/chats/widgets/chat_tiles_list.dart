@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_py/views/chats/widgets/chat_page_tile.dart';
 import 'package:whatsapp_clone_py/views/chats/model/chats_contact_models.dart';
+import 'package:whatsapp_clone_py/views/homepage/widgets/custom_loader.dart';
 
 class ChatTilesList extends StatelessWidget {
-  const ChatTilesList({super.key});
+  final bool isSearch;
+  final TextEditingController searchController;
+  const ChatTilesList({
+    super.key,
+    required this.isSearch,
+    required this.searchController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +20,14 @@ class ChatTilesList extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
-          child: SizedBox(width: double.infinity, child: ChatContactList()),
+          child: SizedBox(
+            width: double.infinity,
+            child: ChatContactList(
+              key: key,
+              isSearch: isSearch,
+              searchController: searchController,
+            ),
+          ),
         ),
       ),
     );
@@ -21,25 +35,34 @@ class ChatTilesList extends StatelessWidget {
 }
 
 class ChatContactList extends StatelessWidget {
-  const ChatContactList({super.key});
+  final bool isSearch;
+  final TextEditingController searchController;
+  const ChatContactList({
+    super.key,
+    required this.isSearch,
+    required this.searchController,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: contacts.length,
-      itemBuilder: (context, index) {
-        final chat = contacts[index];
+    return isSearch & searchController.text.trim().isNotEmpty
+        ? Center(child: customLoader(context))
+        : ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: contacts.length,
+            itemBuilder: (context, index) {
+              final chat = contacts[index];
 
-        return ChatContactItem(
-          index: index,
-          chat: chat,
+              return ChatContactItem(
+                key: key,
+                index: index,
+                chat: chat,
 
-          onTap: () {
-            debugPrint('Open chat: ${chat.username}');
-          },
-        );
-      },
-    );
+                onTap: () {
+                  debugPrint('Open chat: ${chat.username}');
+                },
+              );
+            },
+          );
   }
 }

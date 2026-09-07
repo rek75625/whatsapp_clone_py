@@ -12,6 +12,8 @@ class ChatContactModels {
   final HomeTile homeTile;
   final MessageType messageType;
   final List<String>? participantsImages;
+  final int? numberOfCalls;
+  final CallStatus? callStatus;
 
   const ChatContactModels({
     required this.username,
@@ -23,18 +25,22 @@ class ChatContactModels {
     this.messageType = MessageType.text,
     required this.homeTile,
     this.participantsImages,
+    this.numberOfCalls,
+    this.callStatus,
   });
 }
 
 enum MessageType { text, image, voice, emoji }
 
-enum HomeTile { message, group }
+enum HomeTile { message, group, call }
+
+enum CallStatus { missed, declined, accepted }
 
 // ============================================================
 // CHAT DATA
 // ============================================================
 
-const List<ChatContactModels> contacts = [
+List<ChatContactModels> contacts = [
   ChatContactModels(
     username: 'Jordan Moran',
     userimageUrl:
@@ -44,6 +50,8 @@ const List<ChatContactModels> contacts = [
     isOnline: true,
     messageType: MessageType.emoji,
     homeTile: HomeTile.group,
+    callStatus: CallStatus.accepted,
+    numberOfCalls: 0,
   ),
   ChatContactModels(
     username: 'James Arthur',
@@ -60,6 +68,8 @@ const List<ChatContactModels> contacts = [
       'https://images.unsplash.com/photo-1500648767791-00dcc994a43e',
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
     ],
+    callStatus: CallStatus.accepted,
+    numberOfCalls: 0,
   ),
   ChatContactModels(
     username: 'Sarah Williams',
@@ -69,6 +79,8 @@ const List<ChatContactModels> contacts = [
     time: '15:48',
     isOnline: false,
     homeTile: HomeTile.group,
+    callStatus: CallStatus.accepted,
+    numberOfCalls: 0,
   ),
   ChatContactModels(
     username: 'David Smith',
@@ -80,6 +92,8 @@ const List<ChatContactModels> contacts = [
     unreadCount: 4,
     messageType: MessageType.voice,
     homeTile: HomeTile.message,
+    callStatus: CallStatus.accepted,
+    numberOfCalls: 0,
   ),
   ChatContactModels(
     username: 'Emma Watson',
@@ -89,6 +103,8 @@ const List<ChatContactModels> contacts = [
     time: '13:22',
     isOnline: false,
     homeTile: HomeTile.message,
+    callStatus: CallStatus.accepted,
+    numberOfCalls: 0,
   ),
   ChatContactModels(
     username: 'Michael Johnson',
@@ -99,6 +115,8 @@ const List<ChatContactModels> contacts = [
     isOnline: true,
     messageType: MessageType.image,
     homeTile: HomeTile.message,
+    callStatus: CallStatus.accepted,
+    numberOfCalls: 0,
   ),
   ChatContactModels(
     username: 'Olivia Brown',
@@ -108,5 +126,7 @@ const List<ChatContactModels> contacts = [
     isOnline: false,
     unreadCount: 1,
     homeTile: HomeTile.message,
+    callStatus: CallStatus.accepted,
+    numberOfCalls: 0,
   ),
 ];
