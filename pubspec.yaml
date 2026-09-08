@@ -37,6 +37,9 @@ dependencies:
   bottom_navy_bar: ^6.1.0
   hidable: ^1.0.6
   lottie: ^3.5.1
+  sqflite: ^2.4.4
+  path: ^1.9.1
+  path_provider: ^2.1.6
 
 dev_dependencies:
   flutter_test:
