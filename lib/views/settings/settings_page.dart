@@ -7,8 +7,13 @@ import 'package:whatsapp_clone_py/widgets/search_textfield.dart';
 import 'package:whatsapp_clone_py/widgets/story_and_status.dart';
 
 class SettingsPage extends StatefulWidget {
+  final int selectedIndex;
   final ScrollController scrollController;
-  const SettingsPage({super.key, required this.scrollController});
+  const SettingsPage({
+    super.key,
+    required this.scrollController,
+    required this.selectedIndex,
+  });
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -60,6 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Divider(color: AppColors.lightGrey, thickness: 1.0),
               Expanded(
                 child: ChatTilesList(
+                  selectedIndex: widget.selectedIndex,
                   isSearch: isSearch,
                   searchController: searchController,
                 ),

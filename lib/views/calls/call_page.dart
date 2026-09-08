@@ -8,7 +8,12 @@ import 'package:whatsapp_clone_py/widgets/story_and_status.dart';
 
 class CallPage extends StatefulWidget {
   final ScrollController scrollController;
-  const CallPage({super.key, required this.scrollController});
+  final int selectedIndex;
+  const CallPage({
+    super.key,
+    required this.scrollController,
+    required this.selectedIndex,
+  });
 
   @override
   State<CallPage> createState() => _CallPageState();
@@ -60,6 +65,7 @@ class _CallPageState extends State<CallPage> {
               Divider(color: AppColors.lightGrey, thickness: 1.0),
               Expanded(
                 child: ChatTilesList(
+                  selectedIndex: widget.selectedIndex,
                   isSearch: isSearch,
                   searchController: searchController,
                 ),

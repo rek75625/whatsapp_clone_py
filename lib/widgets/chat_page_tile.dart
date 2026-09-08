@@ -4,6 +4,7 @@ import 'package:whatsapp_clone_py/model/chats_contact_models.dart';
 
 class ChatPageTile extends StatelessWidget {
   final int index;
+  final int selectedIndex;
   final ChatContactModels chat;
   final VoidCallback? onTap;
 
@@ -12,6 +13,7 @@ class ChatPageTile extends StatelessWidget {
     required this.chat,
     this.onTap,
     required this.index,
+    required this.selectedIndex,
   });
 
   @override
@@ -25,7 +27,6 @@ class ChatPageTile extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-
       child: Container(
         padding: EdgeInsets.only(
           left: horizontalPadding,

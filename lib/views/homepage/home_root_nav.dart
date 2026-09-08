@@ -20,9 +20,18 @@ class _HomeRootNavState extends State<HomeRootNav> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetOptions = <Widget>[
-      CallPage(scrollController: scrollController), // Index 0: Home
-      ChatPage(scrollController: scrollController), // Index 1: Chats
-      SettingsPage(scrollController: scrollController), // Index 2: Settings
+      CallPage(
+        scrollController: scrollController,
+        selectedIndex: selectedIndex,
+      ), // Index 0: Home
+      ChatPage(
+        scrollController: scrollController,
+        selectedIndex: selectedIndex,
+      ), // Index 1: Chats
+      SettingsPage(
+        scrollController: scrollController,
+        selectedIndex: selectedIndex,
+      ), // Index 2: Settings
     ];
     return Scaffold(
       backgroundColor: backgroundColor(context),

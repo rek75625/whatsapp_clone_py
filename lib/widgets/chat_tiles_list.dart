@@ -5,11 +5,13 @@ import 'package:whatsapp_clone_py/widgets/chat_page_tile.dart';
 
 class ChatTilesList extends StatelessWidget {
   final bool isSearch;
+  final int selectedIndex;
   final TextEditingController searchController;
   const ChatTilesList({
     super.key,
     required this.isSearch,
     required this.searchController,
+    required this.selectedIndex,
   });
 
   @override
@@ -23,6 +25,7 @@ class ChatTilesList extends StatelessWidget {
           child: SizedBox(
             width: double.infinity,
             child: ChatContactList(
+              selectedIndex: selectedIndex,
               isSearch: isSearch,
               searchController: searchController,
             ),
@@ -35,11 +38,13 @@ class ChatTilesList extends StatelessWidget {
 
 class ChatContactList extends StatelessWidget {
   final bool isSearch;
+  final int selectedIndex;
   final TextEditingController searchController;
   const ChatContactList({
     super.key,
     required this.isSearch,
     required this.searchController,
+    required this.selectedIndex,
   });
 
   @override
@@ -53,6 +58,7 @@ class ChatContactList extends StatelessWidget {
               final chat = contacts[index];
 
               return ChatPageTile(
+                selectedIndex: selectedIndex,
                 index: index,
                 chat: chat,
 
