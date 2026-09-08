@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone_py/constants/app_font_sizing.dart';
 import 'package:whatsapp_clone_py/constants/app_sizing.dart';
 import 'package:whatsapp_clone_py/constants/colors.dart';
-import 'package:whatsapp_clone_py/constants/images_constant.dart';
-import 'package:whatsapp_clone_py/views/chats/widgets/add_story.dart';
-import 'package:whatsapp_clone_py/views/chats/widgets/chat_tiles_list.dart';
+import 'package:whatsapp_clone_py/widgets/chat_tiles_list.dart';
+import 'package:whatsapp_clone_py/widgets/page_header.dart';
+import 'package:whatsapp_clone_py/widgets/search_textfield.dart';
+import 'package:whatsapp_clone_py/widgets/story_and_status.dart';
 
 class ChatPage extends StatefulWidget {
   final ScrollController scrollController;
@@ -38,108 +36,31 @@ class _ChatPageState extends State<ChatPage> {
           child: Column(
             children: [
               AppSizes.height8,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    isSearch ? 'Search' : 'Chats',
-                    style: TextStyle(
-                      fontSize: AppFontSizing.fontHeadingLarge24,
-                      fontWeight: FontWeight.w800,
-                      color: blackColor(context).darkShade,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isSearch = !isSearch;
-                        searchController.clear();
-                      });
-                    },
-                    icon: Transform.rotate(
-                      angle: isSearch ? 0 : pi * (90 / 360),
-                      child: Icon(
-                        isSearch ? Icons.search : Icons.add,
-                        size: AppFontSizing.fontHeadingLarge24,
-                        color: AppColors.greenColor,
-                      ),
-                    ),
-                  ),
-                ],
+              PageHeader(
+                isSearch: isSearch,
+                pageTitle: "Chats",
+                onPressed: () {
+                  setState(() {
+                    isSearch = !isSearch;
+                  });
+                },
               ),
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
-
-                child: isSearch
-                    ? SizedBox(key: ValueKey('empty'))
-                    : Padding(
-                        key: ValueKey('search'),
-
-                        padding: EdgeInsets.only(top: 4, bottom: 8),
-
-                        child: SizedBox(
-                          height: 48,
-
-                          child: TextFormField(
-                            controller: searchController,
-
-                            decoration: InputDecoration(
-                              hintText: 'Search here......',
-
-                              prefixIcon: Icon(Icons.search),
-
-                              filled: true,
-
-                              fillColor: Colors.grey.shade100,
-
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: 0,
-                                horizontal: 12,
-                              ),
-
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+              SearchTextfield(
+                isSearch: isSearch,
+                searchController: searchController,
               ),
               AppSizes.height8,
               Divider(color: AppColors.lightGrey, thickness: 1.0),
               AppSizes.height8,
-              Container(
-                height: screenHeight * 0.14,
-                width: screenWidth, // Adjust width based on screen size
-                decoration: BoxDecoration(),
-                child: ListView.builder(
-                  itemCount: 30,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return addStoryOrStatusWidget(
-                        iconData: Icons.add,
-                        title: 'Your Story',
-                        size: 60,
-                        imagePath: null,
-                      );
-                    }
-                    return addStoryOrStatusWidget(
-                      iconData: null,
-                      title: 'User $index',
-                      size: 60,
-                      imagePath: ImagesConstant.statusOrAddStory,
-                    );
-                  },
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                ),
+              StoryAndStatus(
+                addStatus: false,
+                screenHeight: screenHeight,
+                screenWidth: screenWidth,
               ),
               Divider(color: AppColors.lightGrey, thickness: 1.0),
+
               Expanded(
                 child: ChatTilesList(
-                  key: Key("Chats"),
                   isSearch: isSearch,
                   searchController: searchController,
                 ),

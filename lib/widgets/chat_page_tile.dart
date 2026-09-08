@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_py/constants/app_sizing.dart';
-import 'package:whatsapp_clone_py/views/chats/model/chats_contact_models.dart';
+import 'package:whatsapp_clone_py/model/chats_contact_models.dart';
 
-class ChatContactItem extends StatelessWidget {
+class ChatPageTile extends StatelessWidget {
   final int index;
   final ChatContactModels chat;
   final VoidCallback? onTap;
 
-  const ChatContactItem({
+  const ChatPageTile({
     super.key,
     required this.chat,
     this.onTap,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone_py/views/chats/widgets/chat_page_tile.dart';
-import 'package:whatsapp_clone_py/views/chats/model/chats_contact_models.dart';
+import 'package:whatsapp_clone_py/model/chats_contact_models.dart';
 import 'package:whatsapp_clone_py/views/homepage/widgets/custom_loader.dart';
+import 'package:whatsapp_clone_py/widgets/chat_page_tile.dart';
 
 class ChatTilesList extends StatelessWidget {
   final bool isSearch;
@@ -23,7 +23,6 @@ class ChatTilesList extends StatelessWidget {
           child: SizedBox(
             width: double.infinity,
             child: ChatContactList(
-              key: key,
               isSearch: isSearch,
               searchController: searchController,
             ),
@@ -53,8 +52,7 @@ class ChatContactList extends StatelessWidget {
             itemBuilder: (context, index) {
               final chat = contacts[index];
 
-              return ChatContactItem(
-                key: key,
+              return ChatPageTile(
                 index: index,
                 chat: chat,
 
