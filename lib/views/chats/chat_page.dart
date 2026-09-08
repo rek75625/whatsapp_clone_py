@@ -86,3 +86,80 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
+
+// ============================================================
+// CALLS
+// ============================================================
+
+class CallsPage extends StatelessWidget {
+  const CallsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Calls',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+        actions: const [
+          Icon(Icons.search),
+          SizedBox(width: 20),
+          Icon(Icons.more_vert),
+          SizedBox(width: 10),
+        ],
+      ),
+      body: const Center(
+        child: Text(
+          'Calls',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================
+// COMMUNITIES
+// ============================================================
+
+class CommunitiesPage extends StatelessWidget {
+  const CommunitiesPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Communities',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+        actions: const [Icon(Icons.more_vert), SizedBox(width: 15)],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(22),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF0F9ED),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.groups, size: 45, color: Color(0xFF008069)),
+                SizedBox(width: 18),
+                Expanded(
+                  child: Text(
+                    'Stay connected with communities and groups.',
+                    style: TextStyle(fontSize: 16, height: 1.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

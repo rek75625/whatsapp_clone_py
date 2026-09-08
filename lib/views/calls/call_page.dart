@@ -85,3 +85,37 @@ class _CallPageState extends State<CallPage> {
     );
   }
 }
+
+// ============================================================
+// CHAT PAGE
+// ============================================================
+
+class ChatsPage extends StatelessWidget {
+  const ChatsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'WhatsApp',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+        actions: const [
+          Icon(Icons.camera_alt_outlined),
+          SizedBox(width: 18),
+          Icon(Icons.search),
+          SizedBox(width: 18),
+          Icon(Icons.more_vert),
+          SizedBox(width: 8),
+        ],
+      ),
+      body: const Center(
+        child: Text(
+          'Chats',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
