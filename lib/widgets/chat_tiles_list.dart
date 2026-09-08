@@ -4,12 +4,12 @@ import 'package:whatsapp_clone_py/model/chats_contact_models.dart';
 import 'package:whatsapp_clone_py/constants/colors.dart';
 import 'package:whatsapp_clone_py/views/homepage/widgets/home_nave_enums.dart';
 
-class ChatTilesList extends StatelessWidget {
+class ChatTileList extends StatelessWidget {
   final bool isSearch;
   final TextEditingController searchController;
   final HomeSection selectedSection;
 
-  const ChatTilesList({
+  const ChatTileList({
     super.key,
     required this.isSearch,
     required this.searchController,

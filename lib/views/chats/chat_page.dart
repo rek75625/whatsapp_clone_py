@@ -66,7 +66,7 @@ class _ChatPageState extends State<ChatPage> {
               Divider(color: AppColors.lightGrey, thickness: 1.0),
 
               Expanded(
-                child: ChatTilesList(
+                child: ChatTileList(
                   isSearch: isSearch,
                   searchController: searchController,
                   selectedSection: getHomeSection(widget.selectedIndex),

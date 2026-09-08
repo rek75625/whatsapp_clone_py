@@ -33,10 +33,7 @@ class _HomeRootNavState extends State<HomeRootNav> {
         scrollController: scrollController,
         selectedIndex: selectedIndex,
       ), // Index 1: Home
-      SettingsPage(
-        scrollController: scrollController,
-        selectedIndex: selectedIndex,
-      ), // Index 2: Settings
+      UserProfilePage(selectedIndex: selectedIndex), // Index 2: Settings
     ];
     return Scaffold(
       backgroundColor: backgroundColor(context),
@@ -88,8 +85,8 @@ class _HomeRootNavState extends State<HomeRootNav> {
                     : null,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: "Settings",
+                icon: Icon(Icons.account_circle_outlined),
+                label: "User Profile",
                 backgroundColor: selectedIndex == 3
                     ? AppColors.greenColor
                     : null,

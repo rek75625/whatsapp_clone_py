@@ -64,12 +64,12 @@ extension DarkMode on BuildContext {
       MediaQuery.of(this).platformBrightness == Brightness.dark;
 }
 
-Color backgroundColor(BuildContext context) => context.isDarkMode
-    ? blackColor(context, isnvert: true).darkShade
+Color backgroundColor(BuildContext context, {bool invert = false}) =>
+    (invert ? !context.isDarkMode : context.isDarkMode)
+    ? Colors.black87
     : AppColors.backgroundColor;
 
-DoubleShade blackColor(BuildContext context, {bool isnvert = false}) =>
-    (isnvert ? !context.isDarkMode : context.isDarkMode)
+DoubleShade blackColor(BuildContext context) => context.isDarkMode
     ? DoubleShade(AppColors.lightGrey, AppColors.backgroundColor)
     : DoubleShade(Color(0xFF313131), Color(0xFF121212));
 
