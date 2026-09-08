@@ -7,22 +7,22 @@ import 'package:whatsapp_clone_py/widgets/page_header.dart';
 import 'package:whatsapp_clone_py/widgets/search_textfield.dart';
 import 'package:whatsapp_clone_py/widgets/story_and_status.dart';
 
-class CallPage extends StatefulWidget {
+class UpdatePage extends StatefulWidget {
   final ScrollController scrollController;
   final int selectedIndex;
-  const CallPage({
+  const UpdatePage({
     super.key,
     required this.scrollController,
     required this.selectedIndex,
   });
 
   @override
-  State<CallPage> createState() => _CallPageState();
+  State<UpdatePage> createState() => _UpdatePageState();
 }
 
-class _CallPageState extends State<CallPage> {
-  final TextEditingController searchController = TextEditingController();
+class _UpdatePageState extends State<UpdatePage> {
   bool isSearch = false;
+  final TextEditingController searchController = TextEditingController();
 
   @override
   void dispose() {
@@ -44,7 +44,7 @@ class _CallPageState extends State<CallPage> {
               AppSizes.height8,
               PageHeader(
                 isSearch: isSearch,
-                pageTitle: "Calls",
+                pageTitle: "Chats",
                 onPressed: () {
                   setState(() {
                     isSearch = !isSearch;
@@ -59,11 +59,12 @@ class _CallPageState extends State<CallPage> {
               Divider(color: AppColors.lightGrey, thickness: 1.0),
               AppSizes.height8,
               StoryAndStatus(
-                addStatus: true,
+                addStatus: false,
                 screenHeight: screenHeight,
                 screenWidth: screenWidth,
               ),
               Divider(color: AppColors.lightGrey, thickness: 1.0),
+
               Expanded(
                 child: ChatTilesList(
                   isSearch: isSearch,

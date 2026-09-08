@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_py/constants/app_sizing.dart';
 import 'package:whatsapp_clone_py/constants/colors.dart';
+import 'package:whatsapp_clone_py/views/homepage/widgets/home_nave_enums.dart';
 import 'package:whatsapp_clone_py/widgets/chat_tiles_list.dart';
 import 'package:whatsapp_clone_py/widgets/page_header.dart';
 import 'package:whatsapp_clone_py/widgets/search_textfield.dart';
@@ -65,9 +66,9 @@ class _SettingsPageState extends State<SettingsPage> {
               Divider(color: AppColors.lightGrey, thickness: 1.0),
               Expanded(
                 child: ChatTilesList(
-                  selectedIndex: widget.selectedIndex,
                   isSearch: isSearch,
                   searchController: searchController,
+                  selectedSection: getHomeSection(widget.selectedIndex),
                 ),
               ),
             ],

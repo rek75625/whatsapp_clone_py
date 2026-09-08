@@ -4,6 +4,7 @@ import 'package:whatsapp_clone_py/constants/colors.dart';
 import 'package:whatsapp_clone_py/views/calls/call_page.dart';
 import 'package:whatsapp_clone_py/views/chats/chat_page.dart';
 import 'package:whatsapp_clone_py/views/settings/settings_page.dart';
+import 'package:whatsapp_clone_py/views/updates/update_page.dart';
 
 class HomeRootNav extends StatefulWidget {
   const HomeRootNav({super.key});
@@ -20,14 +21,18 @@ class _HomeRootNavState extends State<HomeRootNav> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetOptions = <Widget>[
-      CallPage(
-        scrollController: scrollController,
-        selectedIndex: selectedIndex,
-      ), // Index 0: Home
       ChatPage(
         scrollController: scrollController,
         selectedIndex: selectedIndex,
-      ), // Index 1: Chats
+      ), // Index 0: Chats
+      UpdatePage(
+        scrollController: scrollController,
+        selectedIndex: selectedIndex,
+      ), // Index 0: Chats
+      CallPage(
+        scrollController: scrollController,
+        selectedIndex: selectedIndex,
+      ), // Index 1: Home
       SettingsPage(
         scrollController: scrollController,
         selectedIndex: selectedIndex,
@@ -62,23 +67,30 @@ class _HomeRootNavState extends State<HomeRootNav> {
             unselectedItemColor: blackColor(context).darkShade,
             items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.phone),
-                label: "Calls",
+                icon: Icon(Icons.chat_bubble),
+                label: "Chats",
                 backgroundColor: selectedIndex == 0
                     ? AppColors.greenColor
                     : null,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.chat_bubble),
-                label: "Chats",
+                icon: Icon(Icons.update_rounded),
+                label: "Updates",
                 backgroundColor: selectedIndex == 1
+                    ? AppColors.greenColor
+                    : null,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.phone),
+                label: "Calls",
+                backgroundColor: selectedIndex == 2
                     ? AppColors.greenColor
                     : null,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
                 label: "Settings",
-                backgroundColor: selectedIndex == 2
+                backgroundColor: selectedIndex == 3
                     ? AppColors.greenColor
                     : null,
               ),
