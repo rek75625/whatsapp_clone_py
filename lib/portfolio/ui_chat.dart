@@ -831,19 +831,17 @@ class MessageBubble extends StatelessWidget {
     return Align(
       alignment: message.mine ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 320),
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+        constraints: BoxConstraints(maxWidth: 320),
+        margin: EdgeInsets.only(bottom: 12),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 11),
         decoration: BoxDecoration(
           gradient: message.mine
-              ? const LinearGradient(
-                  colors: [Color(0xFF625BFF), Color(0xFF765CF6)],
-                )
+              ? LinearGradient(colors: [Color(0xFF625BFF), Color(0xFF765CF6)])
               : null,
           color: message.mine ? null : Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(18),
-            topRight: const Radius.circular(18),
+            topLeft: Radius.circular(18),
+            topRight: Radius.circular(18),
             bottomLeft: Radius.circular(message.mine ? 18 : 4),
             bottomRight: Radius.circular(message.mine ? 4 : 18),
           ),
@@ -851,7 +849,7 @@ class MessageBubble extends StatelessWidget {
             BoxShadow(
               color: Colors.black.withValues(alpha: .04),
               blurRadius: 10,
-              offset: const Offset(0, 4),
+              offset: Offset(0, 4),
             ),
           ],
         ),
@@ -863,13 +861,13 @@ class MessageBubble extends StatelessWidget {
               child: Text(
                 message.text,
                 style: TextStyle(
-                  color: message.mine ? Colors.white : const Color(0xFF30313A),
+                  color: message.mine ? Colors.white : Color(0xFF30313A),
                   fontSize: 14,
                   height: 1.4,
                 ),
               ),
             ),
-            const SizedBox(height: 5),
+            SizedBox(height: 5),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -881,12 +879,8 @@ class MessageBubble extends StatelessWidget {
                   ),
                 ),
                 if (message.mine) ...[
-                  const SizedBox(width: 4),
-                  const Icon(
-                    Icons.done_all_rounded,
-                    size: 13,
-                    color: Colors.white70,
-                  ),
+                  SizedBox(width: 4),
+                  Icon(Icons.done_all_rounded, size: 13, color: Colors.white70),
                 ],
               ],
             ),
