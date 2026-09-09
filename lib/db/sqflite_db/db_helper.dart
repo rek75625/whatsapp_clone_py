@@ -87,5 +87,27 @@ class DBHelper {
   }
 
   /// Updation
+  Future<bool> updateNote({
+    required String myTitle,
+    required String myDesc,
+    required int sno,
+  }) async {
+    var db = await getDB();
+    int rowEffected = await db.update(TABLE_NAME, {
+      COL_NOTE_TITLE: myTitle,
+      COL_NOTE_DESC: myDesc,
+    }, where: "$COL_NOTE_SNO=$sno");
+    return rowEffected > 0;
+  }
+
   /// Deletion
+  Future<bool> deleteNote({required int sno}) async {
+    var db = await getDB();
+    int rowEffected = await db.delete(
+      TABLE_NAME,
+      where: "$COL_NOTE_SNO=?",
+      whereArgs: ["$sno"],
+    );
+    return rowEffected > 0;
+  }
 }

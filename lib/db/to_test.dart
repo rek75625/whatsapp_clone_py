@@ -37,8 +37,45 @@ class _ToTestState extends State<ToTest> {
               itemBuilder: (context, index) {
                 return ListTile(
                   leading: Text("${myNotes[index][DBHelper.COL_NOTE_SNO]}"),
-                  title: Text(myNotes[index][DBHelper.COL_NOTE_SNO]),
-                  subtitle: Text(myNotes[index][DBHelper.COL_NOTE_SNO]),
+                  title: Text(myNotes[index][DBHelper.COL_NOTE_TITLE]),
+                  subtitle: Text(myNotes[index][DBHelper.COL_NOTE_DESC]),
+                  trailing: SizedBox(
+                    width: 50,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                titleController.text =
+                                    myNotes[index][DBHelper.COL_NOTE_TITLE];
+                                descController.text =
+                                    myNotes[index][DBHelper.COL_NOTE_DESC];
+                                return customBottomSheetView(
+                                  context,
+                                  isUpdated: true,
+                                  sno: myNotes[index][DBHelper.COL_NOTE_SNO],
+                                );
+                              },
+                            );
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            bool isCheck = await refDB!.deleteNote(
+                              sno: myNotes[index][DBHelper.COL_NOTE_SNO],
+                            );
+                            if (isCheck) {
+                              toGetAllNotes();
+                            }
+                          },
+                          icon: Icon(Icons.delete, color: Colors.red),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
             )
@@ -47,52 +84,75 @@ class _ToTestState extends State<ToTest> {
         onPressed: () async {
           showModalBottomSheet(
             context: context,
-            builder: (context) => Container(
-              padding: EdgeInsets.all(10),
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Text("Add Note"),
-                  SizedBox(height: 20),
-                  TextFormField(controller: titleController),
-                  TextFormField(controller: descController),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (titleController.text.isNotEmpty &&
-                          descController.text.isNotEmpty) {
-                        bool isCheck = await refDB!.addNote(
-                          myTitle: titleController.text,
-                          myDesc: descController.text,
-                        );
-                        if (isCheck) {
-                          toGetAllNotes();
-                        } else if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("No note add yet")),
-                          );
-                        }
-                        titleController.clear();
-                        descController.clear();
-                        await Future.delayed(Duration(milliseconds: 100));
-                        if (context.mounted) {
-                          Navigator.of(context).pop();
-                        }
-                      }
-                    },
-                    child: Text("Add Note"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("Cancel"),
-                  ),
-                ],
-              ),
-            ),
+            builder: (context) {
+              titleController.clear();
+              descController.clear();
+              return customBottomSheetView(context);
+            },
           );
         },
         child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget customBottomSheetView(
+    BuildContext context, {
+    bool isUpdated = false,
+    int sno = 0,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      width: double.infinity,
+      child: Column(
+        children: [
+          Text(isUpdated ? "Update Note" : "Add Note"),
+          SizedBox(height: 20),
+          TextFormField(controller: titleController),
+          TextFormField(controller: descController),
+          ElevatedButton(
+            onPressed: () async {
+              var title = titleController.text;
+              var desc = descController.text;
+              if (title.isNotEmpty && desc.isNotEmpty) {
+                bool isCheck = isUpdated
+                    ? await refDB!.updateNote(
+                        myTitle: titleController.text,
+                        myDesc: descController.text,
+                        sno: sno,
+                      )
+                    : await refDB!.addNote(
+                        myTitle: titleController.text,
+                        myDesc: descController.text,
+                      );
+                if (isCheck) {
+                  toGetAllNotes();
+                } else if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        isUpdated ? "No note yet" : "No note add yet",
+                      ),
+                    ),
+                  );
+                }
+                titleController.clear();
+                descController.clear();
+                await Future.delayed(Duration(milliseconds: 100));
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              }
+            },
+            child: Text(isUpdated ? "Update" : "Add"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("Cancel"),
+          ),
+        ],
       ),
     );
   }
