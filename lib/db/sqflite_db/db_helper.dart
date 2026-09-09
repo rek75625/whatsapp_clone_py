@@ -67,6 +67,12 @@ class DBHelper {
   }
 
   /// All Queries
+  Future<List<Map<String, dynamic>>> getAllNotes() async {
+    var db = await getDB();
+    List<Map<String, dynamic>> myData = await db.query(TABLE_NAME);
+    return myData;
+  }
+
   /// Insertion
   Future<bool> addNote({
     required String myTitle,
