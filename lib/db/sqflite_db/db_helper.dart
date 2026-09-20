@@ -111,3 +111,225 @@ class DBHelper {
     return rowEffected > 0;
   }
 }
+
+class DBHelperUni {
+  /// Singleton
+  DBHelperUni._();
+
+  /// Create a single instance
+  static final DBHelper getInstance = DBHelper._();
+
+  /// Table Name
+  static final String TABLE_NAME = "students";
+
+  /// Column Names
+  static final String COL_STUDENT_SNO = "s_no";
+  static final String COL_STUDENT_NAME = "name";
+  static final String COL_STUDENT_EMAIL = "email";
+  static final String COL_STUDENT_PHONE = "phone";
+  static final String COL_STUDENT_DEPARTMENT = "department";
+  static final String COL_STUDENT_SEMESTER = "semester";
+  static final String COL_STUDENT_CGPA = "cgpa";
+
+  Database? myDB;
+
+  // ============================================================
+  // DATABASE
+  // ============================================================
+
+  /// Get Database
+  ///
+  /// If database is already open, return the existing database.
+  /// Otherwise, create/open the database.
+  Future<Database> getDB() async {
+    myDB ??= await openDB();
+    return myDB!;
+  }
+
+  /// Open Database
+  ///
+  /// If database exists -> open it
+  /// If database does not exist -> create it
+  Future<Database> openDB() async {
+    /// Get application documents directory
+    Directory appDir = await getApplicationDocumentsDirectory();
+
+    /// Create database path
+    String dbPath = join(appDir.path, "universityDb.db");
+
+    /// Open/Create database
+    return await openDatabase(
+      dbPath,
+      version: 1,
+
+      /// Create table when database is created for the first time
+      onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE $TABLE_NAME (
+            $COL_STUDENT_SNO INTEGER PRIMARY KEY AUTOINCREMENT,
+            $COL_STUDENT_NAME TEXT,
+            $COL_STUDENT_EMAIL TEXT,
+            $COL_STUDENT_PHONE TEXT,
+            $COL_STUDENT_DEPARTMENT TEXT,
+            $COL_STUDENT_SEMESTER INTEGER,
+            $COL_STUDENT_CGPA REAL
+          )
+          ''');
+      },
+    );
+  }
+
+  // ============================================================
+  // GET ALL STUDENTS
+  // ============================================================
+
+  /// Get all students
+  Future<List<Map<String, dynamic>>> getAllStudents() async {
+    var db = await getDB();
+
+    List<Map<String, dynamic>> myData = await db.query(
+      TABLE_NAME,
+      orderBy: "$COL_STUDENT_SNO DESC",
+    );
+
+    return myData;
+  }
+
+  // ============================================================
+  // INSERT STUDENT
+  // ============================================================
+
+  /// Add a new student
+  Future<bool> addStudent({
+    required String name,
+    required String email,
+    required String phone,
+    required String department,
+    required int semester,
+    required double cgpa,
+  }) async {
+    var db = await getDB();
+
+    int rowEffected = await db.insert(TABLE_NAME, {
+      COL_STUDENT_NAME: name,
+      COL_STUDENT_EMAIL: email,
+      COL_STUDENT_PHONE: phone,
+      COL_STUDENT_DEPARTMENT: department,
+      COL_STUDENT_SEMESTER: semester,
+      COL_STUDENT_CGPA: cgpa,
+    });
+
+    return rowEffected > 0;
+  }
+
+  // ============================================================
+  // UPDATE STUDENT
+  // ============================================================
+
+  /// Update existing student
+  Future<bool> updateStudent({
+    required String name,
+    required String email,
+    required String phone,
+    required String department,
+    required int semester,
+    required double cgpa,
+    required int sno,
+  }) async {
+    var db = await getDB();
+
+    int rowEffected = await db.update(
+      TABLE_NAME,
+      {
+        COL_STUDENT_NAME: name,
+        COL_STUDENT_EMAIL: email,
+        COL_STUDENT_PHONE: phone,
+        COL_STUDENT_DEPARTMENT: department,
+        COL_STUDENT_SEMESTER: semester,
+        COL_STUDENT_CGPA: cgpa,
+      },
+      where: "$COL_STUDENT_SNO = ?",
+      whereArgs: [sno],
+    );
+
+    return rowEffected > 0;
+  }
+
+  // ============================================================
+  // DELETE STUDENT
+  // ============================================================
+
+  /// Delete student
+  Future<bool> deleteStudent({required int sno}) async {
+    var db = await getDB();
+
+    int rowEffected = await db.delete(
+      TABLE_NAME,
+      where: "$COL_STUDENT_SNO = ?",
+      whereArgs: [sno],
+    );
+
+    return rowEffected > 0;
+  }
+
+  // ============================================================
+  // GET SINGLE STUDENT
+  // ============================================================
+
+  /// Get one student by ID
+  Future<Map<String, dynamic>?> getStudentById({required int sno}) async {
+    var db = await getDB();
+
+    List<Map<String, dynamic>> data = await db.query(
+      TABLE_NAME,
+      where: "$COL_STUDENT_SNO = ?",
+      whereArgs: [sno],
+    );
+
+    if (data.isNotEmpty) {
+      return data.first;
+    }
+
+    return null;
+  }
+
+  // ============================================================
+  // SEARCH STUDENTS
+  // ============================================================
+
+  /// Search students by name
+  Future<List<Map<String, dynamic>>> searchStudents({
+    required String keyword,
+  }) async {
+    var db = await getDB();
+
+    List<Map<String, dynamic>> data = await db.query(
+      TABLE_NAME,
+      where: "$COL_STUDENT_NAME LIKE ?",
+      whereArgs: ["%$keyword%"],
+      orderBy: "$COL_STUDENT_NAME ASC",
+    );
+
+    return data;
+  }
+
+  // ============================================================
+  // GET STUDENTS BY DEPARTMENT
+  // ============================================================
+
+  /// Get students from a specific department
+  Future<List<Map<String, dynamic>>> getStudentsByDepartment({
+    required String department,
+  }) async {
+    var db = await getDB();
+
+    List<Map<String, dynamic>> data = await db.query(
+      TABLE_NAME,
+      where: "$COL_STUDENT_DEPARTMENT = ?",
+      whereArgs: [department],
+      orderBy: "$COL_STUDENT_NAME ASC",
+    );
+
+    return data;
+  }
+}
