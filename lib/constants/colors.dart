@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 
 /// A centralized class for your app's design system constants.
 /// Use this to ensure consistent fonts, text styles, and colors across the app.
+class DefaultColors {
+  static const Color greyText = Color(0xFFB3B9C9);
+  static const Color whiteText = Color(0xFFFFFFFF);
+  static const Color senderMessage = Color(0xFF7A8194);
+  static const Color receiverMessage = Color(0xFF373E4E);
+  static const Color sentMessageInput = Color(0xFF3D4354);
+  static const Color messageListPage = Color(0xFF292F3F);
+  static const Color buttonColor = Color(0xFF7A8194);
+}
+
 class DoubleShade {
   final Color lightShade;
   final Color darkShade;

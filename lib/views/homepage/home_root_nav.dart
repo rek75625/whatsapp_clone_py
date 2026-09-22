@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hidable/hidable.dart';
 import 'package:whatsapp_clone_py/constants/colors.dart';
 import 'package:whatsapp_clone_py/views/calls/call_page.dart';
-import 'package:whatsapp_clone_py/views/chats/chat_page.dart';
+
 import 'package:whatsapp_clone_py/views/settings/settings_page.dart';
 import 'package:whatsapp_clone_py/views/updates/update_page.dart';
 
@@ -21,10 +21,7 @@ class _HomeRootNavState extends State<HomeRootNav> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetOptions = <Widget>[
-      ChatPage(
-        scrollController: scrollController,
-        selectedIndex: selectedIndex,
-      ), // Index 0: Chats
+      // Index 0: Chats
       UpdatePage(
         scrollController: scrollController,
         selectedIndex: selectedIndex,

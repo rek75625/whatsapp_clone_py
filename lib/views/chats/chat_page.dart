@@ -1,161 +1,311 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_py/constants/app_sizing.dart';
 import 'package:whatsapp_clone_py/constants/colors.dart';
-import 'package:whatsapp_clone_py/views/homepage/widgets/home_nave_enums.dart';
-import 'package:whatsapp_clone_py/widgets/chat_tiles_list.dart';
-import 'package:whatsapp_clone_py/widgets/page_header.dart';
-import 'package:whatsapp_clone_py/widgets/search_textfield.dart';
-import 'package:whatsapp_clone_py/widgets/story_and_status.dart';
 
-class ChatPage extends StatefulWidget {
-  final ScrollController scrollController;
-  final int selectedIndex;
-  const ChatPage({
-    super.key,
-    required this.scrollController,
-    required this.selectedIndex,
-  });
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _ChatPageState extends State<ChatPage> {
-  bool isSearch = false;
-  final TextEditingController searchController = TextEditingController();
-
+class _SplashScreenState extends State<SplashScreen> {
   @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+
+    _startLoading();
+  }
+
+  Future<void> _startLoading() async {
+    // Show loading screen for 3 seconds
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (!mounted) return;
+
+    // Open Messages page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MessagesPage()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: backgroundColor(context),
-      body: SafeArea(
-        child: Padding(
-          padding: AppSizes.padHori16,
-          child: Column(
-            children: [
-              AppSizes.height8,
-              PageHeader(
-                isSearch: isSearch,
-                pageTitle: "Chats",
-                onPressed: () {
-                  setState(() {
-                    isSearch = !isSearch;
-                  });
-                },
+      backgroundColor: const Color(0xFF111827),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // App Logo
+            Container(
+              width: 90,
+              height: 90,
+              decoration: BoxDecoration(
+                color: const Color(0xFF25D366),
+                borderRadius: BorderRadius.circular(25),
               ),
-              SearchTextfield(
-                isSearch: isSearch,
-                searchController: searchController,
+              child: const Icon(
+                Icons.chat_rounded,
+                color: Colors.white,
+                size: 50,
               ),
-              AppSizes.height8,
-              Divider(color: AppColors.lightGrey, thickness: 1.0),
-              AppSizes.height8,
-              StoryAndStatus(
-                addStatus: false,
-                screenHeight: screenHeight,
-                screenWidth: screenWidth,
-              ),
-              Divider(color: AppColors.lightGrey, thickness: 1.0),
+            ),
 
-              Expanded(
-                child: ChatTileList(
-                  isSearch: isSearch,
-                  searchController: searchController,
-                  selectedSection: getHomeSection(widget.selectedIndex),
-                ),
+            const SizedBox(height: 25),
+
+            // App Name
+            const Text(
+              'Wori',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+            ),
+
+            const SizedBox(height: 10),
+
+            const Text(
+              'Loading...',
+              style: TextStyle(color: Colors.white70, fontSize: 15),
+            ),
+
+            const SizedBox(height: 30),
+
+            // Loading Indicator
+            const SizedBox(
+              width: 35,
+              height: 35,
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                color: Color(0xFF25D366),
+              ),
+            ),
+          ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          debugPrint('Open new chat');
-        },
-        backgroundColor: AppColors.greenColor,
-        child: Icon(Icons.add_box_sharp, color: Colors.white),
       ),
     );
   }
 }
 
-// ============================================================
-// CALLS
-// ============================================================
+// ------------------------------------------------------
+// MESSAGES PAGE
+// ------------------------------------------------------
 
-class CallsPage extends StatelessWidget {
-  const CallsPage({super.key});
+class MessagesPage extends StatelessWidget {
+  const MessagesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF111827),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF111827),
+        elevation: 0,
         title: const Text(
-          'Calls',
-          style: TextStyle(fontWeight: FontWeight.w700),
+          'Messages',
+          style: TextStyle(color: Colors.white, fontSize: 18),
         ),
-        actions: const [
-          Icon(Icons.search),
-          SizedBox(width: 20),
-          Icon(Icons.more_vert),
-          SizedBox(width: 10),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search, color: Colors.white),
+          ),
         ],
       ),
-      body: const Center(
-        child: Text(
-          'Calls',
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        ),
+
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text("Recent", style: Theme.of(context).textTheme.bodySmall),
+          ),
+          Container(
+            height: 85,
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                _statusTile(name: "Berry"),
+                _statusTile(name: "Verry"),
+                _statusTile(name: "Gerry"),
+                _statusTile(name: "Jerry"),
+                _statusTile(name: "Aerry"),
+                _statusTile(name: "Merry"),
+                _statusTile(name: "Perry"),
+                _statusTile(name: "Berry"),
+                _statusTile(name: "Verry"),
+                _statusTile(name: "Gerry"),
+                _statusTile(name: "Jerry"),
+                _statusTile(name: "Aerry"),
+                _statusTile(name: "Merry"),
+                _statusTile(name: "Perry"),
+                _statusTile(name: "Berry"),
+                _statusTile(name: "Verry"),
+                _statusTile(name: "Gerry"),
+                _statusTile(name: "Jerry"),
+                _statusTile(name: "Aerry"),
+                _statusTile(name: "Merry"),
+                _statusTile(name: "Perry"),
+              ],
+            ),
+          ),
+
+          AppSizes.height24,
+
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              decoration: BoxDecoration(
+                color: DefaultColors.messageListPage,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50),
+                ),
+              ),
+              child: ListView(
+                children: [
+                  _messageTile(
+                    name: 'Danny H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+
+                  _messageTile(
+                    name: 'Bobby H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+
+                  _messageTile(
+                    name: 'Mike H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+
+                  _messageTile(
+                    name: 'Fabrice H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+
+                  _messageTile(
+                    name: 'Fabio H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+                  _messageTile(
+                    name: 'Danny H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+
+                  _messageTile(
+                    name: 'Bobby H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+
+                  _messageTile(
+                    name: 'Mike H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+
+                  _messageTile(
+                    name: 'Fabrice H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+
+                  _messageTile(
+                    name: 'Fabio H',
+                    email: 'danny@gmail.com',
+                    time: '08:43',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
-}
 
-// ============================================================
-// COMMUNITIES
-// ============================================================
-
-class CommunitiesPage extends StatelessWidget {
-  const CommunitiesPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Communities',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
-        actions: const [Icon(Icons.more_vert), SizedBox(width: 15)],
+  Widget _messageTile({
+    required String name,
+    required String email,
+    required String time,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E293B),
+        borderRadius: BorderRadius.circular(15),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
+      child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF0F9ED),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Row(
+          // Avatar
+          const CircleAvatar(radius: 25, backgroundColor: Color(0xFFD6E7F8)),
+
+          const SizedBox(width: 12),
+
+          // Name + Email
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.groups, size: 45, color: Color(0xFF008069)),
-                SizedBox(width: 18),
-                Expanded(
-                  child: Text(
-                    'Stay connected with communities and groups.',
-                    style: TextStyle(fontSize: 16, height: 1.5),
+                Text(
+                  name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
+
+                const SizedBox(height: 4),
+
+                Text(
+                  email,
+                  style: const TextStyle(color: Colors.white54, fontSize: 12),
+                ),
               ],
+            ),
+          ),
+
+          // Time
+          Text(
+            time,
+            style: const TextStyle(color: Colors.white38, fontSize: 10),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statusTile({required String name}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+      height: 80,
+      decoration: BoxDecoration(),
+      child: Column(
+        children: [
+          // Avatar
+          const CircleAvatar(radius: 25, backgroundColor: Color(0xFFD6E7F8)),
+
+          const SizedBox(height: 8),
+          Text(
+            name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],

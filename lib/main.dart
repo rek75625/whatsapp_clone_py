@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone_py/views/homepage/home_root_nav.dart';
+import 'package:whatsapp_clone_py/constants/theme.dart';
+import 'package:whatsapp_clone_py/views/chats/chat_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,13 +23,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'WhatsApp Clone',
+      title: 'Chat App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      theme: AppTheme.darkTheme,
       builder: (context, child) {
         return ScrollConfiguration(behavior: ScrollGlowEffect(), child: child!);
       },
-      home: HomeRootNav(),
+      home: SplashScreen(),
     );
   }
 }

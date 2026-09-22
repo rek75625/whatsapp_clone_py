@@ -7,15 +7,21 @@ class AppFontSizing {
   // ===========================================================================
   // 1. RAW FONT SIZES (Scale values)
   // ===========================================================================
-  static const double fontDisplayLarge40 = 40.0;
-  static const double fontDisplayMedium32 = 32.0;
-  static const double fontHeadingLarge24 = 24.0;
+  static const double fontDisplayLarge32 = 32.0;
+  static const double fontDisplayMedium28 = 28.0;
+  static const double fontHeadingLarge24 = 22.0;
   static const double fontHeadingMedium20 = 20.0;
   static const double fontHeadingSmall18 = 18.0;
   static const double fontBodyLarge16 = 16.0;
   static const double fontBodyMedium14 = 14.0;
   static const double fontBodySmall12 = 12.0;
   static const double fontCaption10 = 10.0;
+
+  static const double small = 32.0;
+  static const double standard = 28.0;
+  static const double standardUp = 22.0;
+  static const double medium = 20.0;
+  static const double large = 18.0;
 
   // ===========================================================================
   // 2. LINE HEIGHT MULTIPLIERS (Crucial for crisp multi-line text alignment)
@@ -33,11 +39,11 @@ class AppFontSizing {
 
   // --- Displays (For splash screens, landing highlights) ---
   static const TextStyle displayLarge = TextStyle(
-    fontSize: fontDisplayLarge40,
+    fontSize: fontDisplayLarge32,
     height: heightsDisplay11,
   );
   static const TextStyle displayMedium = TextStyle(
-    fontSize: fontDisplayMedium32,
+    fontSize: fontDisplayMedium28,
     height: heightsDisplay11,
   );
 
