@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_py/constants/theme.dart';
-import 'package:whatsapp_clone_py/views/chats/chat_page.dart';
+
+import 'package:whatsapp_clone_py/views/chats/single_chat_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return ScrollConfiguration(behavior: ScrollGlowEffect(), child: child!);
       },
-      home: SplashScreen(),
+      home: SingleChatPage(),
     );
   }
 }
